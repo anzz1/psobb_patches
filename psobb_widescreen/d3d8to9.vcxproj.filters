@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="helpers">
+      <UniqueIdentifier>{709e8cf8-ebdb-4573-8524-20b04c6a5883}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="resources">
+      <UniqueIdentifier>{2d5bd44f-68df-4a2e-967b-57e194c0eac4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="smaa">
+      <UniqueIdentifier>{33c4798e-07cf-4fac-b24a-c89e01431bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{3116a495-2847-4002-880d-54ec7fb11091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ssao">
+      <UniqueIdentifier>{a137cf7c-c654-41d2-8e4e-f2ab9db701df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tonemap">
+      <UniqueIdentifier>{8b49aef6-2dc4-4ab1-afcb-8ff91b6b150a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="celshader">
+      <UniqueIdentifier>{1a500783-b35e-4b68-9052-ab1acc2c5c8a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dof">
+      <UniqueIdentifier>{f776edeb-3656-410c-9b85-7c9626942469}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\d3d8to9.cpp" />
+    <ClCompile Include="source\d3d8to9_base.cpp" />
+    <ClCompile Include="source\d3d8to9_device.cpp" />
+    <ClCompile Include="source\d3d8to9_index_buffer.cpp" />
+    <ClCompile Include="source\d3d8to9_surface.cpp" />
+    <ClCompile Include="source\d3d8to9_swap_chain.cpp" />
+    <ClCompile Include="source\d3d8to9_texture.cpp" />
+    <ClCompile Include="source\d3d8to9_vertex_buffer.cpp" />
+    <ClCompile Include="source\d3d8to9_volume.cpp" />
+    <ClCompile Include="source\d3d8types.cpp">
+      <Filter>helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\interface_query.cpp">
+      <Filter>helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="source\smaa\SMAA.cpp">
+      <Filter>smaa</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ssao\SSAO.cpp">
+      <Filter>ssao</Filter>
+    </ClCompile>
+    <ClCompile Include="source\tonemap\HDRToneMap.cpp">
+      <Filter>tonemap</Filter>
+    </ClCompile>
+    <ClCompile Include="source\celshader\CelShader.cpp">
+      <Filter>celshader</Filter>
+    </ClCompile>
+    <ClCompile Include="source\dof\DOF.cpp">
+      <Filter>dof</Filter>
+    </ClCompile>
+    <ClCompile Include="source\DepthTexture.cpp" />
+    <ClCompile Include="source\WideScreen.c" />
+    <ClCompile Include="source\Options.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="res\resource.h">
+      <Filter>resources</Filter>
+    </ClInclude>
+    <ClInclude Include="source\d3d8.hpp">
+      <Filter>helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\d3d8to9.hpp" />
+    <ClInclude Include="source\d3d8types.hpp">
+      <Filter>helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\interface_query.hpp">
+      <Filter>helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="source\smaa\SMAA.h">
+      <Filter>smaa</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ssao\SSAO.h">
+      <Filter>ssao</Filter>
+    </ClInclude>
+    <ClInclude Include="source\tonemap\HDRToneMap.h">
+      <Filter>tonemap</Filter>
+    </ClInclude>
+    <ClInclude Include="source\celshader\CelShader.h">
+      <Filter>celshader</Filter>
+    </ClInclude>
+    <ClInclude Include="source\dof\DOF.h">
+      <Filter>dof</Filter>
+    </ClInclude>
+    <ClInclude Include="source\DepthTexture.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\d3d8.def">
+      <Filter>resources</Filter>
+    </None>
+    <None Include="res\SMAA.hlsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="res\AreaTexDX9.dds">
+      <Filter>resources</Filter>
+    </None>
+    <None Include="res\SMAA.fx">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\d3d8to9.rc">
+      <Filter>resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\SearchTex.dds">
+      <Filter>resources</Filter>
+    </Image>
+  </ItemGroup>
+</Project>

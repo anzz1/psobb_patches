@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34407.143
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "psobb_bettersleep", "psobb_bettersleep\msvc\psobb_bettersleep.vcxproj", "{45405E8F-95B9-4CFE-BD0B-2F0F10D61B80}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "psobb_moresaveslots", "psobb_moresaveslots\msvc\psobb_moresaveslots.vcxproj", "{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3d8to9", "psobb_widescreen\d3d8to9.vcxproj", "{7EE21ADA-3B02-4CD6-A891-C2257A54B061}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{45405E8F-95B9-4CFE-BD0B-2F0F10D61B80}.Debug|Win32.ActiveCfg = Release|Win32
+		{45405E8F-95B9-4CFE-BD0B-2F0F10D61B80}.Debug|Win32.Build.0 = Release|Win32
+		{45405E8F-95B9-4CFE-BD0B-2F0F10D61B80}.Release|Win32.ActiveCfg = Release|Win32
+		{45405E8F-95B9-4CFE-BD0B-2F0F10D61B80}.Release|Win32.Build.0 = Release|Win32
+		{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}.Debug|Win32.ActiveCfg = Release|Win32
+		{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}.Debug|Win32.Build.0 = Release|Win32
+		{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}.Release|Win32.ActiveCfg = Release|Win32
+		{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}.Release|Win32.Build.0 = Release|Win32
+		{7EE21ADA-3B02-4CD6-A891-C2257A54B061}.Debug|Win32.ActiveCfg = Debug|Win32
+		{7EE21ADA-3B02-4CD6-A891-C2257A54B061}.Debug|Win32.Build.0 = Debug|Win32
+		{7EE21ADA-3B02-4CD6-A891-C2257A54B061}.Release|Win32.ActiveCfg = Release|Win32
+		{7EE21ADA-3B02-4CD6-A891-C2257A54B061}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3CC46B34-C676-4B20-B3EE-2639A3F25341}
+	EndGlobalSection
+EndGlobal

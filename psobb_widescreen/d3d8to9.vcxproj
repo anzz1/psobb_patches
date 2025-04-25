@@ -1,0 +1,155 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7EE21ADA-3B02-4CD6-A891-C2257A54B061}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>7.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Label="Configuration">
+    <CharacterSet>NotSet</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='16.0'">v141_xp</PlatformToolset>
+    <PlatformToolset Condition="'$(VisualStudioVersion)'=='17.0'">v143</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup>
+    <TargetName>d3d8</TargetName>
+    <OutDir>bin\$(Configuration)\</OutDir>
+    <IntDir>intermediate\$(Configuration)\</IntDir>
+    <IncludePath>$(IncludePath);$(DXSDK_DIR)\Include</IncludePath>
+    <LibraryPath>$(DXSDK_DIR)\Lib\x86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;D3D_DEBUG_INFO;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>source\dxsdk;source\nvapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ModuleDefinitionFile>res\d3d8.def</ModuleDefinitionFile>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;nvapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>source\dxsdk\lib\x86;source\nvapi\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <CustomBuildStep>
+      <Command>cmd.exe /c copy /y /b "$(TargetPath)" "C:\Games\PSO BB\client"</Command>
+      <Outputs>always.xyz</Outputs>
+    </CustomBuildStep>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>false</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;D3D8TO9NOLOG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <AdditionalIncludeDirectories>source\dxsdk;source\nvapi;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <RuntimeTypeInfo>false</RuntimeTypeInfo>
+      <UseFullPaths>false</UseFullPaths>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <ModuleDefinitionFile>res\d3d8.def</ModuleDefinitionFile>
+      <AdditionalDependencies>d3d9.lib;d3dx9.lib;nvapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>source\dxsdk\lib\x86;source\nvapi\lib\x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
+      <RandomizedBaseAddress>false</RandomizedBaseAddress>
+      <EnableUAC>false</EnableUAC>
+      <LinkErrorReporting>NoErrorReport</LinkErrorReporting>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="source\celshader\CelShader.cpp" />
+    <ClCompile Include="source\d3d8to9.cpp" />
+    <ClCompile Include="source\d3d8to9_base.cpp" />
+    <ClCompile Include="source\d3d8to9_device.cpp" />
+    <ClCompile Include="source\d3d8to9_index_buffer.cpp" />
+    <ClCompile Include="source\d3d8to9_surface.cpp" />
+    <ClCompile Include="source\d3d8to9_swap_chain.cpp" />
+    <ClCompile Include="source\d3d8to9_texture.cpp" />
+    <ClCompile Include="source\d3d8to9_vertex_buffer.cpp" />
+    <ClCompile Include="source\d3d8to9_volume.cpp" />
+    <ClCompile Include="source\d3d8types.cpp" />
+    <ClCompile Include="source\DepthTexture.cpp" />
+    <ClCompile Include="source\dof\DOF.cpp" />
+    <ClCompile Include="source\interface_query.cpp" />
+    <ClCompile Include="source\Options.c" />
+    <ClCompile Include="source\smaa\SMAA.cpp" />
+    <ClCompile Include="source\ssao\SSAO.cpp" />
+    <ClCompile Include="source\tonemap\HDRToneMap.cpp" />
+    <ClCompile Include="source\WideScreen.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="res\resource.h" />
+    <ClInclude Include="source\celshader\CelShader.h" />
+    <ClInclude Include="source\d3d8.hpp" />
+    <ClInclude Include="source\d3d8to9.hpp" />
+    <ClInclude Include="source\d3d8types.hpp" />
+    <ClInclude Include="source\DepthTexture.hpp" />
+    <ClInclude Include="source\dof\DOF.h" />
+    <ClInclude Include="source\interface_query.hpp" />
+    <ClInclude Include="source\smaa\SMAA.h" />
+    <ClInclude Include="source\ssao\SSAO.h" />
+    <ClInclude Include="source\tonemap\HDRToneMap.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\d3d8.def" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\d3d8to9.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\SMAA.fx">
+      <FileType>Document</FileType>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">fxc /Od /Zi /Tfx_2_0 /nologo /I ../.. /Fo"$(IntDir)%(Filename).fxo"  /Fc"$(IntDir)%(Filename).asm" "%(FullPath)"</Command>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(IntDir)%(Filename).fxo</Outputs>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">SMAA.hlsl</AdditionalInputs>
+    </None>
+    <None Include="res\SMAA.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\AreaTexDX9.dds" />
+    <Image Include="res\SearchTex.dds" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>
