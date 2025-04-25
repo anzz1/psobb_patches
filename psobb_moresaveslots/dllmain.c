@@ -49,7 +49,7 @@ void __declspec(naked) enableScroll()
     mov       dword ptr [eax + ecx + 0xAC], 0;             // scroll_bar->selection_state[client_id].scroll_offset = 0
     mov       dword ptr [eax + ecx + 0xB0], 0;             // scroll_bar->selection_state[client_id].selected_index = 0
     mov       dword ptr [eax + ecx + 0xB4], 4;             // scroll_bar->selection_state[client_id].num_items_in_view = 4
-    mov       dword ptr [eax + ecx + 0xB8], (SLOT_COUNT-1);        // scroll_bar->selection_state[client_id].last_item_index = (slot count - 1)
+    mov       dword ptr [eax + ecx + 0xB8], (SLOT_COUNT-1); // scroll_bar->selection_state[client_id].last_item_index = (slot count - 1)
     pop       edi
     ret
   }
@@ -108,7 +108,6 @@ void __declspec(naked) fixPreviewWindow()
     jmp       eax
   }
 }
-
 
 // Fix Signature check on all save files (rewritten as loop)
 static BYTE fixSaveFileSignatureCheck[] = {
@@ -177,7 +176,6 @@ void __declspec(naked) fixSaveFileSignatureCheck()
   }
 }
 #endif
-
 
 // Show slot number in each menu item
 static BYTE addMenuSlotNumber[] = {
@@ -393,6 +391,37 @@ void __declspec(naked) addMenuSlotNumber()
 }
 #endif
 
+// This patch sends the slot count in the unused header.flag field in the E3
+// command to speed up the login process
+static BYTE sendSlotCountE3[] = {
+  0x6A, 0x00, 0xFF, 0x74, 0x24, 0x08, 0x6A, SLOT_COUNT, 0x68, 0x10, 0x00, 0xE3, 0x00, 0x89, 0xE0, 0x6A,
+  0x10, 0x50, 0x8B, 0x01, 0xFF, 0x50, 0x20, 0x83, 0xC4, 0x08, 0xB8, 0x80, 0x1A, 0x6C, 0x00, 0xFF,
+  0xD0, 0x83, 0xC4, 0x08, 0xC2, 0x04, 0x00
+};
+#if 0
+void __declspec(naked) sendSlotCountE3()
+{
+  __asm {
+    // ecx       = this (TDataProtocol*)
+    // [esp + 4] = slot_index
+    push      0
+    push      [esp + 0x8]                                  // slot_index
+    push      SLOT_COUNT                                   // slot_count
+    push      0x00E30010
+    mov       eax, esp
+    push      0x10
+    push      eax
+    mov       eax, [ecx]
+    call      [eax + 0x20]                                 // this->send_command(&cmd, 0x10) : ret 8
+    add       esp, 8
+    mov       eax, 0x006C1A80
+    call      eax                                          // set_current_char_slot(slot_index) : ret 0
+    add       esp, 8
+    ret       4
+  }
+}
+#endif
+
 // These patches change various places where the character data size and slot
 // count are referenced
 void fix_references(void)
@@ -511,6 +540,7 @@ void patch_moresaveslots(void) {
   memcpy((void*)0x006C1C2D, fixSaveFileSignatureCheck, sizeof(fixSaveFileSignatureCheck));
   memcpy((void*)0x00401D57, addMenuSlotNumber, sizeof(addMenuSlotNumber));
   memset((void*)((DWORD)0x00401D57+sizeof(addMenuSlotNumber)), 0, 155);
+  memcpy((void*)0x0046EB20, sendSlotCountE3, sizeof(sendSlotCountE3));
 
   fix_references();
 }
