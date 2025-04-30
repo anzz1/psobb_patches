@@ -7,7 +7,7 @@ These patches are designed to work with the [MTethVer12513](https://github.com/a
 To install, simply extract [psobb_patches.zip](https://github.com/anzz1/psobb_patches/releases/latest/download/psobb_patches.zip) archive to the game folder.
 
 ## BetterSleep
-Significantly lowers CPU usage by replacing the frame limiter's busy loop with a smart sleep algorithm using the [preciseleep](https://github.com/anzz1/precisesleep) technique.
+Significantly lowers CPU usage by replacing the frame limiter's busy loop with a smart sleep algorithm using the [precisesleep](https://github.com/anzz1/precisesleep) technique.
 
 ## MoreSaveSlots
 Increases the number of save slots from 4 to 12. Configurable to up to 127 slots by changing the [SLOT_COUNT](https://github.com/anzz1/psobb_patches/blob/master/psobb_moresaveslots/dllmain.c#L14) definition and recompiling.
