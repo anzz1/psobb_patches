@@ -11,7 +11,7 @@
 #include <windows.h>
 #include "util.h"
 
-#define SLOT_COUNT 12                                      // 4 - 127
+#define SLOT_COUNT 20                                      // 4 - 127
 
 #if SLOT_COUNT < 4 || SLOT_COUNT > 127
 #error SLOT_COUNT must be between 4 and 127
