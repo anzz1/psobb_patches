@@ -32,17 +32,15 @@ void __declspec(naked) enableScroll()
     mov       ecx, [eax + 0xEC];                           // ecx = scroll_bar->client_id
     imul      ecx, ecx, 0x24;
     // Set up scroll bar graphics (in struct at scroll_bar + 0x1C)
-    // TODO: Even though we set this up the same way PSO Xbox does, it still
-    // doesn't render. Figure this out and fix it.
     mov       dword ptr [eax + ecx + 0x1C], 0x439D0000;
     mov       dword ptr [eax + ecx + 0x20], 0x43360000;
     mov       dword ptr [eax + ecx + 0x24], 0x439D0000;
     mov       dword ptr [eax + ecx + 0x28], 0x4392AB85;
     mov       dword ptr [eax + ecx + 0x2C], 0x40400000;
     mov       dword ptr [eax + ecx + 0x30], 0x425EA3D7;
-    mov       dword ptr [eax + ecx + 0x34], 0x00000008;
+    mov       dword ptr [eax + ecx + 0x34], (SLOT_COUNT-4);
     mov       dword ptr [eax + ecx + 0x38], 0x00000000;
-    mov       dword ptr [eax + ecx + 0x2C], 0x00000000;
+    mov       dword ptr [eax + ecx + 0x3C], 0x00000000;
     or        dword ptr [eax + 0xF0], 1;                   // scroll_bar->flags |= 1
     mov       ecx, [eax + 0xEC];
     shl       ecx, 4;
