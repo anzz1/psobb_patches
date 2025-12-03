@@ -692,4 +692,7 @@ void patch_widescreen(void) {
   *(float*)(0x006F4D56) = 61.0f * ((((float)D - 128.0f) / 128.0f) + 1.0f);
   *(float*)(0x006F4D5E) = 576.0f * (((B - 128.0f) / 128.0f) + 1.0f);
   *(float*)(0x006F4D66) = 317.0f * ((((float)D - 128.0f) / 128.0f) + 1.0f);
+
+  // disable printscreen
+  *(BYTE*)(0x007C1424) = 0xC3;  
 }
