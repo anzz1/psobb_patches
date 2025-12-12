@@ -540,7 +540,7 @@ static DWORD GetImageSize(HMODULE hModule) {
 
 void patch_widescreen(void) {
   if (GetImageSize(0) < 0x00762000 || *(DWORD*)0x00B613FA != 0x4C4E3935) { // 59NL
-    MessageBox(0, "Wrong client version, expected MTethVer12513 (1.25.13)", "Error", MB_ICONERROR);
+    MessageBoxA(0, "Wrong client version, expected MTethVer12513 (1.25.13)", "Error", MB_ICONERROR);
     ExitProcess(-1);
   }
 
@@ -694,5 +694,5 @@ void patch_widescreen(void) {
   *(float*)(0x006F4D66) = 317.0f * ((((float)D - 128.0f) / 128.0f) + 1.0f);
 
   // disable printscreen
-  *(BYTE*)(0x007C1424) = 0xC3;  
+  *(BYTE*)(0x007C1424) = 0xC3;
 }

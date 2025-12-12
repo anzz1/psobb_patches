@@ -545,7 +545,7 @@ void patch_moresaveslots(void) {
 
 __declspec(dllexport) void __stdcall load(void) {
   if (GetImageSize(0) < 0x00762000 || *(DWORD*)0x00B613FA != 0x4C4E3935) { // 59NL
-    MessageBox(0, "MoreSaveSlots: Wrong client version, expected MTethVer12513 (1.25.13)", "Error", MB_ICONERROR);
+    MessageBoxA(0, "MoreSaveSlots: Wrong client version, expected MTethVer12513 (1.25.13)", "Error", MB_ICONERROR);
     return;
   }
 

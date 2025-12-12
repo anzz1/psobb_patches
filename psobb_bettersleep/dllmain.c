@@ -64,7 +64,7 @@ void __declspec(naked) mysleep()
 }
 
 static void patch_sleep(void) {
-  if (*(ULONGLONG*)0x0082D1D0 != 0x15FF5568246C8B50 || *(ULONGLONG*)0x00482E20 != 0x000000A46C7205C7) // already patched
+  if (*(DWORD*)0x0070CBAC != 0x15FF016A || *(WORD*)0x0082C453 != 0x358B) // already patched
     return;
 
   *(DWORD*)0x0070CBAC = 0x90909090;     // timeBeginPeriod(1) -> nop
@@ -85,7 +85,7 @@ static void patch_sleep(void) {
 
 __declspec(dllexport) void __stdcall load(void) {
   if (GetImageSize(0) < 0x00762000 || *(DWORD*)0x00B613FA != 0x4C4E3935) { // 59NL
-    MessageBox(0, "BetterSleep: Wrong client version, expected MTethVer12513 (1.25.13)", "Error", MB_ICONERROR);
+    MessageBoxA(0, "BetterSleep: Wrong client version, expected MTethVer12513 (1.25.13)", "Error", MB_ICONERROR);
     return;
   }
 
