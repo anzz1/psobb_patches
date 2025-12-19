@@ -45,6 +45,9 @@ int minsamples = 2;
 
 float aoClamp = 0.1; //depth clamp - reduces haloing at screen edges
 
+// See http://developer.download.nvidia.com/GPU_Programming_Guide/GPU_Programming_Guide_G80.pdf
+#define MORE_ACCURATE 1
+
 // END OF TWEAKABLE VALUES
 //--------------------------------------------------------
 
@@ -67,18 +70,6 @@ float width  = SCREEN_SIZE.x;
 float height = SCREEN_SIZE.y;
 
 
-texture2D depthTex2D;
-sampler depthSampler = sampler_state
-{
-	texture = <depthTex2D>;
-	MinFilter = POINT;
-	MagFilter = POINT;
-	MipFilter = POINT;
-	AddressU  = Mirror;
-	AddressV  = Mirror;
-	SRGBTexture = FALSE;
-};
-
 texture2D frameTex2D;
 sampler frameSampler = sampler_state
 {
@@ -89,6 +80,18 @@ sampler frameSampler = sampler_state
 	AddressU  = Clamp;
 	AddressV  = Clamp;
 	SRGBTexture = USE_SRGB;
+};
+
+texture2D depthTex2D;
+sampler depthSampler = sampler_state
+{
+	texture = <depthTex2D>;
+	MinFilter = LINEAR;
+	MagFilter = LINEAR;
+	MipFilter = POINT;
+	AddressU  = CLAMP;
+	AddressV  = CLAMP;
+	SRGBTexture = FALSE;
 };
 
 texture2D prevPassTex2D;
@@ -126,6 +129,30 @@ VSOUT FrameVS(VSIN IN)
 	return OUT;
 }
 
+#ifdef INTZ
+float GetZ(in float2 OriginalUV : TEXCOORD0)
+{
+	return tex2Dlod(depthSampler, float4(OriginalUV, 0, 0)).r;
+}
+#else // RAWZ
+float GetZ(in float2 OriginalUV : TEXCOORD0)
+{
+#ifdef MORE_ACCURATE
+	float3 rawval = floor(255.0 * tex2D(depthSampler, OriginalUV).arg + 0.5); 
+	float z = dot(rawval, float3(0.996093809371817670572857294849, 
+		0.0038909914428586627756752238080039, 
+		1.5199185323666651467481343000015e-5) / 255.0);
+#else
+	float z = dot(tex2D(depthSampler, OriginalUV).arg, 
+		float3(0.996093809371817670572857294849, 
+		0.0038909914428586627756752238080039, 
+		1.5199185323666651467481343000015e-5));
+#endif
+
+	return z;
+}
+#endif
+
 float2 rand(in float2 coord : TEXCOORD0) // generating noise/pattern texture for dithering
 {
 	float noiseX = ((frac(1.0-coord.x*(width/2.0))*0.25)+(frac(coord.y*(height/2.0))*0.75))*2.0-1.0;
@@ -141,25 +168,25 @@ float2 rand(in float2 coord : TEXCOORD0) // generating noise/pattern texture for
 
 float doMist(in float2 coord : TEXCOORD0) 
 {
-	float z = tex2Dlod(depthSampler, float4(coord, 0, 0)).r;
+	float z = GetZ(coord);
 	float depth = -farZ * nearZ / (z * (farZ - nearZ) - farZ);
 	return clamp((depth - miststart) / mistend, 0.0, 1.0);
 }
 
 float readColor(in float2 coord : TEXCOORD0)
 {
-    return tex2D(frameSampler, coord).rgb;
+	return tex2D(frameSampler, coord).rgb;
 }
 
 
 float readDepth(in float2 coord : TEXCOORD0)
 {
-    return (2.0f * nearZ) / ((farZ + nearZ) - tex2Dlod(depthSampler, float4(coord, 0, 0)).r * (farZ - nearZ));
+	return (2.0f * nearZ) / ((farZ + nearZ) - GetZ(coord) * (farZ - nearZ));
 }
 
 float compareDepths(in float depth1, in float depth2, inout int far)
 {   
-	float garea = aoWidth; //gauss bell width    
+	float garea = aoWidth; //gauss bell width
 	float diff = (depth1 - depth2) * 100.0; //depth difference (0-100)
 	//reduce left bell width to avoid self-shadowing 
 	if (diff < gdisplace)
@@ -206,44 +233,44 @@ float4 ssao_Main(VSOUT IN) : COLOR0
 
 	float fog = doMist(IN.UVCoord);	
 
-    float3 color = tex2D(frameSampler, IN.UVCoord).rgb;
-    float3 lumcoeff = float3(0.299,0.587,0.114);
-    float lum = dot(color.rgb, lumcoeff);
-    float luminance = float3(lum, lum, lum);
+	float3 color = tex2D(frameSampler, IN.UVCoord).rgb;
+	float3 lumcoeff = float3(0.299,0.587,0.114);
+	float lum = dot(color.rgb, lumcoeff);
+	float luminance = float3(lum, lum, lum);
 
-    float w = (1.0 / width)/clamp(depth,aoClamp,1.0)*noise.x;
-    float h = (1.0 / height)/clamp(depth,aoClamp,1.0)*noise.y;
+	float w = (1.0 / width)/clamp(depth,aoClamp,1.0)*noise.x;
+	float h = (1.0 / height)/clamp(depth,aoClamp,1.0)*noise.y;
 	
 	float pw;
 	float ph;
 	
 	float ao = 0;
 
-    int samp = samples;
+	int samp = samples;
 
-    if (optimize)
-    {
+	if (optimize)
+	{
 		samp = float(minsamples)+clamp(1.0-(fog+pow(lum*1.0,4.0)),0.0,1.0)*(float(samples)-float(minsamples));
-    }
-	
+	}
+
 	float dl = PI*(3.0-sqrt(5.0));
 	float dz = 1.0/float(samp);
 	float l = 0.0;
 	float z = 1.0 - dz/2.0;
-	
+
 	for (int i = 0; i <= samp; i ++)
-	{     
+	{
 		float r = sqrt(1.0-z);
 		pw = cos(l)*r*(1.0-doMist(IN.UVCoord));
-         ph = sin(l)*r*(1.0-doMist(IN.UVCoord));
+		ph = sin(l)*r*(1.0-doMist(IN.UVCoord));
 		ao += calAO(IN.UVCoord,depth,pw*w,ph*h);
 		z = z - dz;
 		l = l + dl;
 	}
-	
+
 	ao /= float(samp) + 0.1;
 	ao = 1.0 - ao;
-	
+
 	if (mist)
 	{
 		ao = lerp(ao, 1.0, fog);

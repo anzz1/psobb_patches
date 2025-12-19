@@ -20,7 +20,10 @@ extern float DoFAmount = 25;
   
 #define	DISTANTBLUR
 //If defined, reduces DoF to a distance blurring effect, ie. things far away are blurred more than things close up.
- 
+
+#define MORE_ACCURATE 1
+// See http://developer.download.nvidia.com/GPU_Programming_Guide/GPU_Programming_Guide_G80.pdf
+
 // END OF TWEAKABLE VARIABLES.
 // ---------------------------------------
 
@@ -33,24 +36,24 @@ static float2 rcpres = PIXEL_SIZE;
 texture2D frameTex2D;
 sampler2D frameSampler = sampler_state
 {
-    Texture = <frameTex2D>;
-    AddressU = CLAMP;
-    AddressV = CLAMP;
-    MinFilter = POINT;
-    MagFilter = LINEAR;
-    MipFilter = LINEAR;
+	Texture = <frameTex2D>;
+	AddressU = CLAMP;
+	AddressV = CLAMP;
+	MinFilter = POINT;
+	MagFilter = LINEAR;
+	MipFilter = LINEAR;
 };
 
 
 texture2D depthTex2D;
 sampler2D depthSampler = sampler_state
 {
-    Texture = <depthTex2D>;
-    AddressU = CLAMP;
-    AddressV = CLAMP;
-    MinFilter = POINT;
-    MagFilter = LINEAR;
-    MipFilter = LINEAR;
+	Texture = <depthTex2D>;
+	AddressU = CLAMP;
+	AddressV = CLAMP;
+	MinFilter = LINEAR;
+	MagFilter = LINEAR;
+	MipFilter = POINT;
 };
 
 struct VSOUT
@@ -75,6 +78,30 @@ VSOUT FrameVS(VSIN IN)
 	OUT.UVCoord=coord;
 	return OUT;
 }
+
+#ifdef INTZ
+float GetZ(in float2 OriginalUV : TEXCOORD0)
+{
+	return tex2Dlod(depthSampler, float4(OriginalUV, 0, 0)).r;
+}
+#else // RAWZ
+float GetZ(in float2 OriginalUV : TEXCOORD0)
+{
+#ifdef MORE_ACCURATE
+	float3 rawval = floor(255.0 * tex2D(depthSampler, OriginalUV).arg + 0.5); 
+	float z = dot(rawval, float3(0.996093809371817670572857294849, 
+		0.0038909914428586627756752238080039, 
+		1.5199185323666651467481343000015e-5) / 255.0);
+#else
+	float z = dot(tex2D(depthSampler, OriginalUV).arg, 
+		float3(0.996093809371817670572857294849, 
+		0.0038909914428586627756752238080039, 
+		1.5199185323666651467481343000015e-5));
+#endif
+
+	return z;
+}
+#endif
  
 float ComputePointBlurMagnitude (float focusdepth, float pointdepth)
 {
@@ -96,8 +123,8 @@ float ComputePointBlurMagnitude (float focusdepth, float pointdepth)
 		blurmag = 0;
 #endif
 
-    if (blurmag > 1.0) // Clip (Not sure this is needed!)
-        blurmag = 1.0;
+	if (blurmag > 1.0) // Clip (Not sure this is needed!)
+		blurmag = 1.0;
  
 	return blurmag * DoFAmount;
 }
@@ -184,10 +211,10 @@ float4 DoGaussianBlur(float2 UVCoord, float4 blurvector) {
  
 	return Color / 26;
 }
- 
+
 float LinearDepth(in float2 coord : TEXCOORD0)
 {
-	float z = tex2D(depthSampler, coord).r;
+	float z = GetZ(coord);
 	return (2.0f * nearZ) / (nearZ + farZ - z * (farZ - nearZ));
 }
 

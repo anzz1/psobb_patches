@@ -12,7 +12,7 @@ extern HMODULE g_hModule;
 
 class SSAO {
     public:
-        SSAO(IDirect3DDevice9 *device, int width, int height);
+        SSAO(IDirect3DDevice9 *device, int width, int height, bool isINTZ);
         ~SSAO();
 
         void go(IDirect3DTexture9 *frame, IDirect3DTexture9* depth, IDirect3DSurface9 *dst);

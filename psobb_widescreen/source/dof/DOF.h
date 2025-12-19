@@ -13,7 +13,7 @@ extern HMODULE g_hModule;
 
 class DOF {
     public:
-        DOF(IDirect3DDevice9 *device, int width, int height);
+        DOF(IDirect3DDevice9 *device, int width, int height, bool isINTZ);
         ~DOF();
 
         void go(IDirect3DTexture9 *frame, IDirect3DTexture9 *depth, IDirect3DSurface9 *dst);

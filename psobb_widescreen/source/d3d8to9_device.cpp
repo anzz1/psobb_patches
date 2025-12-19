@@ -38,8 +38,8 @@ Direct3DDevice8::Direct3DDevice8(Direct3D8 *d3d, IDirect3DDevice9 *ProxyInterfac
 	depthTexture = new DepthTexture(d3d->GetProxyInterface());
 	if (depthTexture->isSupported()) {
 		depthTexture->createTexture(ProxyInterface, PresentParams->BackBufferWidth, PresentParams->BackBufferHeight);
-		ssao = new SSAO(ProxyInterface, PresentParams->BackBufferWidth, PresentParams->BackBufferHeight);
-		dof = new DOF(ProxyInterface, PresentParams->BackBufferWidth, PresentParams->BackBufferHeight);
+		ssao = new SSAO(ProxyInterface, PresentParams->BackBufferWidth, PresentParams->BackBufferHeight, depthTexture->isINTZ());
+		dof = new DOF(ProxyInterface, PresentParams->BackBufferWidth, PresentParams->BackBufferHeight, depthTexture->isINTZ());
 	}
 
 	smaa = new SMAA(ProxyInterface, PresentParams->BackBufferWidth, PresentParams->BackBufferHeight, SMAA::PRESET_HIGH);
@@ -295,8 +295,8 @@ HRESULT STDMETHODCALLTYPE Direct3DDevice8::Reset(D3DPRESENT_PARAMETERS8 *pPresen
 		depthTexture = new DepthTexture(D3D->GetProxyInterface());
 		if (depthTexture->isSupported()) {
 			depthTexture->createTexture(ProxyInterface, PresentParams.BackBufferWidth, PresentParams.BackBufferHeight);
-			ssao = new SSAO(ProxyInterface, PresentParams.BackBufferWidth, PresentParams.BackBufferHeight);
-			dof = new DOF(ProxyInterface, PresentParams.BackBufferWidth, PresentParams.BackBufferHeight);
+			ssao = new SSAO(ProxyInterface, PresentParams.BackBufferWidth, PresentParams.BackBufferHeight, depthTexture->isINTZ());
+			dof = new DOF(ProxyInterface, PresentParams.BackBufferWidth, PresentParams.BackBufferHeight, depthTexture->isINTZ());
 		}
 
 		smaa = new SMAA(ProxyInterface, PresentParams.BackBufferWidth, PresentParams.BackBufferHeight, SMAA::PRESET_HIGH);

@@ -65,20 +65,26 @@ class ID3D10IncludeResource : public ID3DXInclude {
 #pragma endregion
 
 
-DOF::DOF(IDirect3DDevice9 *device, int width, int height)
+DOF::DOF(IDirect3DDevice9 *device, int width, int height, bool isINTZ)
         : device(device),
           width(width), height(height) {
     HRESULT hr;
 
 		// Setup the defines for compiling the effect.
 		vector<D3DXMACRO> defines;
-    stringstream s;
+		stringstream s;
 
-    // Setup pixel size macro
-    s << "float2(1.0 / " << width << ", 1.0 / " << height << ")";
-    string pixelSizeText = s.str();
-    D3DXMACRO pixelSizeMacro = { "PIXEL_SIZE", pixelSizeText.c_str() };
-    defines.push_back(pixelSizeMacro);
+		// Setup pixel size macro
+		s << "float2(1.0 / " << width << ", 1.0 / " << height << ")";
+		string pixelSizeText = s.str();
+		D3DXMACRO pixelSizeMacro = { "PIXEL_SIZE", pixelSizeText.c_str() };
+		defines.push_back(pixelSizeMacro);
+
+		// Setup INTZ/RAWZ depth buffer sampling
+		if (isINTZ) {
+			D3DXMACRO intzMacro = { "INTZ", "1" };
+			defines.push_back(intzMacro);
+		}
 
 		D3DXMACRO null = { nullptr, nullptr };
 		defines.push_back(null);
@@ -108,8 +114,8 @@ DOF::DOF(IDirect3DDevice9 *device, int width, int height)
 
 		// Get handles
 		frameTexHandle = effect->GetParameterByName(NULL, "frameTex2D");
-    depthTexHandle = effect->GetParameterByName(NULL, "depthTex2D");
-    dofAmtHandle = effect->GetParameterByName(NULL, "DoFAmount");
+		depthTexHandle = effect->GetParameterByName(NULL, "depthTex2D");
+		dofAmtHandle = effect->GetParameterByName(NULL, "DoFAmount");
 }
 
 
