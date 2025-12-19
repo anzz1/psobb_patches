@@ -65,7 +65,7 @@ class ID3D10IncludeResource : public ID3DXInclude {
 #pragma endregion
 
 
-DOF::DOF(IDirect3DDevice9 *device, int width, int height, bool isINTZ)
+DOF::DOF(IDirect3DDevice9 *device, int width, int height, bool isRAWZ)
         : device(device),
           width(width), height(height) {
     HRESULT hr;
@@ -80,10 +80,10 @@ DOF::DOF(IDirect3DDevice9 *device, int width, int height, bool isINTZ)
 		D3DXMACRO pixelSizeMacro = { "PIXEL_SIZE", pixelSizeText.c_str() };
 		defines.push_back(pixelSizeMacro);
 
-		// Setup INTZ/RAWZ depth buffer sampling
-		if (isINTZ) {
-			D3DXMACRO intzMacro = { "INTZ", "1" };
-			defines.push_back(intzMacro);
+		// Setup RAWZ or INTZ/DF24 depth buffer sampling
+		if (isRAWZ) {
+			D3DXMACRO rawzMacro = { "RAWZ", "1" };
+			defines.push_back(rawzMacro);
 		}
 
 		D3DXMACRO null = { nullptr, nullptr };

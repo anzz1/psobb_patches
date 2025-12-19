@@ -129,12 +129,7 @@ VSOUT FrameVS(VSIN IN)
 	return OUT;
 }
 
-#ifdef INTZ
-float GetZ(in float2 OriginalUV : TEXCOORD0)
-{
-	return tex2Dlod(depthSampler, float4(OriginalUV, 0, 0)).r;
-}
-#else // RAWZ
+#ifdef RAWZ
 float GetZ(in float2 OriginalUV : TEXCOORD0)
 {
 #ifdef MORE_ACCURATE
@@ -150,6 +145,11 @@ float GetZ(in float2 OriginalUV : TEXCOORD0)
 #endif
 
 	return z;
+}
+#else // INTZ / DF24
+float GetZ(in float2 OriginalUV : TEXCOORD0)
+{
+	return tex2Dlod(depthSampler, float4(OriginalUV, 0, 0)).r;
 }
 #endif
 

@@ -12,6 +12,7 @@ class DepthTexture
 	LPDIRECT3DTEXTURE9		m_pTexture;
 	bool					m_isRESZ;
 	bool					m_isINTZ;
+	bool					m_isDF24;
 	bool					m_isRAWZ;
 	bool					m_isSupported;
 	IDirect3DSurface9 *		m_registeredDSS;
@@ -24,7 +25,7 @@ public:
 	void				resolveDepth(const LPDIRECT3DDEVICE9 device, IDirect3DSurface9* depth);
 
 	LPDIRECT3DTEXTURE9	getTexture()	{ return m_pTexture; }
-	bool				isINTZ()		{ return m_isINTZ; }
+	bool				isRAWZ()		{ return m_isRAWZ && !( m_isINTZ || m_isDF24 ); }
 	bool				isSupported()	{ return m_isSupported; }
 };
 

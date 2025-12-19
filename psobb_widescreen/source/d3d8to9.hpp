@@ -14,9 +14,6 @@
 #ifndef SAFE_RELEASE
 #define SAFE_RELEASE(p) { if (p) { (p)->Release(); (p) = nullptr; } }
 #endif
-#ifndef D3DFMT_INTZ
-#define D3DFMT_INTZ ((D3DFORMAT)MAKEFOURCC('I','N','T','Z'))
-#endif
 
 #include <vector>
 #include <unordered_set>

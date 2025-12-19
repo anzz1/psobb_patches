@@ -65,7 +65,7 @@ class ID3D10IncludeResource : public ID3DXInclude {
 #pragma endregion
 
 
-SSAO::SSAO(IDirect3DDevice9 *device, int width, int height, bool isINTZ)
+SSAO::SSAO(IDirect3DDevice9 *device, int width, int height, bool isRAWZ)
         : device(device),
           width(width), height(height) {
     HRESULT hr;
@@ -91,10 +91,10 @@ SSAO::SSAO(IDirect3DDevice9 *device, int width, int height, bool isINTZ)
 		D3DXMACRO useSrgbMacro = { "USE_SRGB", "false" };
 		defines.push_back(useSrgbMacro);
 
-		// Setup INTZ/RAWZ depth buffer sampling
-		if (isINTZ) {
-			D3DXMACRO intzMacro = { "INTZ", "1" };
-			defines.push_back(intzMacro);
+		// Setup RAWZ or INTZ/DF24 depth buffer sampling
+		if (isRAWZ) {
+			D3DXMACRO rawzMacro = { "RAWZ", "1" };
+			defines.push_back(rawzMacro);
 		}
 
 		//D3DXMACRO showSsaoMacro = { "SHOW_SSAO", "1" };

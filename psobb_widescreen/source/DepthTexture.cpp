@@ -7,6 +7,7 @@
 #define FOURCC_RESZ ((D3DFORMAT)(MAKEFOURCC('R','E','S','Z')))
 #define FOURCC_INTZ ((D3DFORMAT)(MAKEFOURCC('I','N','T','Z')))
 #define FOURCC_RAWZ ((D3DFORMAT)(MAKEFOURCC('R','A','W','Z')))
+#define FOURCC_DF24 ((D3DFORMAT)(MAKEFOURCC('D','F','2','4')))
 #define RESZ_CODE 0x7fa05000
 
 //--------------------------------------------------------------------------------------
@@ -25,12 +26,16 @@ DepthTexture::DepthTexture(const LPDIRECT3D9 d3d)
 	m_isINTZ = d3d->CheckDeviceFormat( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
 		currentDisplayMode.Format, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, FOURCC_INTZ ) == D3D_OK;
 
+	// determine if DF24 is supported
+	m_isDF24 = d3d->CheckDeviceFormat( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
+		currentDisplayMode.Format, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, FOURCC_DF24 ) == D3D_OK;
+
 	// determine if RAWZ is supported, used in GeForce 6-7 series.
 	m_isRAWZ = d3d->CheckDeviceFormat( D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL,
 		currentDisplayMode.Format, D3DUSAGE_DEPTHSTENCIL, D3DRTYPE_SURFACE, FOURCC_RAWZ ) == D3D_OK;
 
 	// determine if RESZ or NVAPI supported
-	m_isSupported = ( NvAPI_Initialize() == NVAPI_OK || m_isRESZ ) && ( m_isRAWZ || m_isINTZ );
+	m_isSupported = ( NvAPI_Initialize() == NVAPI_OK || m_isRESZ ) && ( m_isRAWZ || m_isINTZ || m_isDF24 );
 }
 
 //--------------------------------------------------------------------------------------
@@ -38,7 +43,7 @@ void DepthTexture::createTexture( const LPDIRECT3DDEVICE9 device, int width, int
 {
 	if (m_isSupported)
 	{
-		D3DFORMAT format = m_isINTZ ? FOURCC_INTZ : FOURCC_RAWZ;
+		D3DFORMAT format = m_isINTZ ? FOURCC_INTZ : (m_isDF24 ? FOURCC_DF24 : FOURCC_RAWZ);
 
 		device->CreateTexture(width, height, 1,
 			D3DUSAGE_DEPTHSTENCIL, format,
@@ -98,6 +103,9 @@ void DepthTexture::resolveDepth(const LPDIRECT3DDEVICE9 device, IDirect3DSurface
 		// This hack to fix resz hack, has been found by Maksym Bezus!!!
 		// Without this line resz will be resolved only for first frame
 		device->SetRenderState(D3DRS_POINTSIZE, 0); // TROLOLO!!!
+
+		// Reset bound texture
+		//device->SetTexture(0, 0);
 	}
 	else
 	{
