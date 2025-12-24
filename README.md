@@ -41,3 +41,7 @@ Simulates a natural look by making far-away objects appear subtly out-of-focus w
 - **High Dynamic Range Tone Mapping**  
 Adjusts the color range of the scene to darken blacks and brighten whites, to more accurately replicate the deeper colors of a [CRT](https://en.wikipedia.org/wiki/Cathode-ray_tube) display for which the game's art was originally designed for. Colors will appear more vivid and less washed out on a modern LCD display. If you are using a CRT display, you might want to turn this feature off.
 
+## LargeAssets
+Increases the asset size limit from 0.59MB to 100MB. Allows loading large custom assets such as high definition texture packs and custom maps.
+
+Credits to [Solybum](https://github.com/Solybum) for the patch.

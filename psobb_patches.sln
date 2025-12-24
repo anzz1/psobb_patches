@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.34407.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "psobb_bettersleep", "psobb_bettersleep\msvc\psobb_bettersleep.vcxproj", "{45405E8F-95B9-4CFE-BD0B-2F0F10D61B80}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "psobb_largeassets", "psobb_largeassets\msvc\psobb_largeassets.vcxproj", "{4AB0C280-FD8F-47A6-ADF0-C134FAD6D2E7}"
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "psobb_moresaveslots", "psobb_moresaveslots\msvc\psobb_moresaveslots.vcxproj", "{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3d8to9", "psobb_widescreen\d3d8to9.vcxproj", "{7EE21ADA-3B02-4CD6-A891-C2257A54B061}"
@@ -19,6 +21,10 @@ Global
 		{45405E8F-95B9-4CFE-BD0B-2F0F10D61B80}.Debug|Win32.Build.0 = Release|Win32
 		{45405E8F-95B9-4CFE-BD0B-2F0F10D61B80}.Release|Win32.ActiveCfg = Release|Win32
 		{45405E8F-95B9-4CFE-BD0B-2F0F10D61B80}.Release|Win32.Build.0 = Release|Win32
+		{4AB0C280-FD8F-47A6-ADF0-C134FAD6D2E7}.Debug|Win32.ActiveCfg = Release|Win32
+		{4AB0C280-FD8F-47A6-ADF0-C134FAD6D2E7}.Debug|Win32.Build.0 = Release|Win32
+		{4AB0C280-FD8F-47A6-ADF0-C134FAD6D2E7}.Release|Win32.ActiveCfg = Release|Win32
+		{4AB0C280-FD8F-47A6-ADF0-C134FAD6D2E7}.Release|Win32.Build.0 = Release|Win32
 		{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}.Debug|Win32.ActiveCfg = Release|Win32
 		{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}.Debug|Win32.Build.0 = Release|Win32
 		{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}.Release|Win32.ActiveCfg = Release|Win32
