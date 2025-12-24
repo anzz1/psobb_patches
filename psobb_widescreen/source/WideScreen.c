@@ -8,6 +8,8 @@
 #include <windows.h>
 #include <stdlib.h>
 
+extern float g_fHUDScale;
+
 ULONG listHUDWidth[] = {
   0x004011D2,
   0x004011EF,
@@ -565,12 +567,12 @@ void patch_widescreen(void) {
   float C = 480.0f;
   DWORD D = 128;
 
-#if HUD_SCALE
-  A *= 1.5f;
-  B *= 1.5f;
-  C *= 1.5f;
-  D = D * 3 / 2;
-#endif
+
+  A *= g_fHUDScale;
+  B *= g_fHUDScale;
+  C *= g_fHUDScale;
+  D = (DWORD)((float)D * g_fHUDScale);
+
 
   for (int i = 0; i < 6; i++) {
     *(DWORD*)(0x009006F4 + i*8) = width;

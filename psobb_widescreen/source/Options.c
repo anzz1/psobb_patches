@@ -14,7 +14,8 @@ static const char default_config[] =
 "SSAO=1\r\n"
 "CelShader=1\r\n"
 "DOF=1\r\n"
-"HDR=1\r\n";
+"HDR=1\r\n"
+"HUDScale=1.0\r\n";
 
 BOOL g_bMSAA = 1;
 BOOL g_bSMAA = 1;
@@ -22,6 +23,7 @@ BOOL g_bSSAO = 1;
 BOOL g_bCelShader = 1;
 BOOL g_bDOF = 1;
 BOOL g_bHDR = 1;
+float g_fHUDScale = 1.0f;
 
 static void write_default_config(const char* path) {
   HANDLE hFile = CreateFileA(path, GENERIC_WRITE, FILE_SHARE_READ | FILE_SHARE_WRITE, 0, CREATE_ALWAYS, 0, 0);
@@ -46,7 +48,7 @@ __forceinline static char* __stristr(const char* s1, const char* s2) {
   return 0;
 }
 
-static BOOL parse_option(char* ptr, const char* option, BOOL* out) {
+static BOOL parse_option_bool(char* ptr, const char* option, BOOL* out) {
   char* p = ptr;
   if (__stristr(p, option)) {
     while (*p && *p != '=') p++;
@@ -94,16 +96,37 @@ static BOOL parse_option(char* ptr, const char* option, BOOL* out) {
   return 0;
 }
 
+// positive values only
+static BOOL parse_option_float(char* ptr, const char* option, float* out) {
+  char* p = ptr;
+  if (__stristr(p, option)) {
+    while (*p && *p != '=') p++;
+    if (*p == '=') {
+      p++;
+      while (*p && (*p == ' ' || *p == '\t')) p++;
+      if (*p) {
+        float f = (float)atof(p);
+        if (f > 0.0f) {
+          *out = f;
+          return 1;
+        }
+      }
+    }
+  }
+  return 0;
+}
+
 static void parse_line(char* line) {
   char* p = line;
   while (*p && (*p == ' ' || *p == '\t')) p++;
   if (*p == 0 || *p == '#' || *p == ';' || *p == '/') return;
-  if (parse_option(p, "msaa", &g_bMSAA)) return;
-  if (parse_option(p, "smaa", &g_bSMAA)) return;
-  if (parse_option(p, "ssao", &g_bSSAO)) return;
-  if (parse_option(p, "celshader", &g_bCelShader)) return;
-  if (parse_option(p, "dof", &g_bDOF)) return;
-  if (parse_option(p, "hdr", &g_bHDR)) return;
+  if (parse_option_bool(p, "msaa", &g_bMSAA)) return;
+  if (parse_option_bool(p, "smaa", &g_bSMAA)) return;
+  if (parse_option_bool(p, "ssao", &g_bSSAO)) return;
+  if (parse_option_bool(p, "celshader", &g_bCelShader)) return;
+  if (parse_option_bool(p, "dof", &g_bDOF)) return;
+  if (parse_option_bool(p, "hdr", &g_bHDR)) return;
+  if (parse_option_float(p, "hudscale", &g_fHUDScale)) return;
 }
 
 static void load_config(void) {
