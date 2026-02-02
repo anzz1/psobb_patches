@@ -18,8 +18,6 @@
 
 #define WIN32_LEAN_AND_MEAN
 #include "d3d8.hpp"
-#include <algorithm>
-#include <cstdint>
 #include <cstdio>
 #include <stdio.h>
 #include <stdlib.h>
