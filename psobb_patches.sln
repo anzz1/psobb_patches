@@ -9,9 +9,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "psobb_largeassets", "psobb_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "psobb_moresaveslots", "psobb_moresaveslots\msvc\psobb_moresaveslots.vcxproj", "{5C9D900E-8DD5-4B99-BE6A-56865F343EBA}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3d8to9", "psobb_widescreen\d3d8to9.vcxproj", "{7EE21ADA-3B02-4CD6-A891-C2257A54B061}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "psobb_framegen", "psobb_framegen\msvc\psobb_framegen.vcxproj", "{AABBCCDD-1122-3344-5566-778899001122}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "d3d8to9", "psobb_widescreen\d3d8to9.vcxproj", "{7EE21ADA-3B02-4CD6-A891-C2257A54B061}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
