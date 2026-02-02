@@ -35,6 +35,8 @@ static FILE *g_pLogFile = nullptr;      // Log handle
 // LOGGING
 // ============================================================================
 static void Log(const char *format, ...) {
+  // Logging disabled for release
+  /*
   if (!g_pLogFile) {
     char path[MAX_PATH];
     GetModuleFileNameA(NULL, path, MAX_PATH);
@@ -53,6 +55,7 @@ static void Log(const char *format, ...) {
     fprintf(g_pLogFile, "\n");
     fflush(g_pLogFile);
   }
+  */
 }
 
 // ============================================================================
