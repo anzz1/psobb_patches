@@ -1,3 +1,4 @@
-LIBRARY psobb_framegen
+LIBRARY framegen
 EXPORTS
-    load
+
+load
