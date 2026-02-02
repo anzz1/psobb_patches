@@ -1,0 +1,3 @@
+LIBRARY psobb_framegen
+EXPORTS
+    load
