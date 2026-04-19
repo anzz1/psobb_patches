@@ -10,7 +10,7 @@ To install, simply extract [psobb_patches.zip](https://github.com/anzz1/psobb_pa
 Significantly lowers CPU usage by replacing the frame limiter's busy loop with a smart sleep algorithm using the [precisesleep](https://github.com/anzz1/precisesleep) technique.
 
 ## MoreSaveSlots
-Increases the number of save slots from 4 to 12. Configurable to up to 127 slots by changing the [SLOT_COUNT](https://github.com/anzz1/psobb_patches/blob/master/psobb_moresaveslots/dllmain.c#L14) definition and recompiling.
+Increases the number of save slots from 4 to 20. Configurable to up to 127 slots by changing the [SLOT_COUNT](https://github.com/anzz1/psobb_patches/blob/master/psobb_moresaveslots/dllmain.c#L14) definition and recompiling.
 Requires a compatible server such as [newserv](https://github.com/fuzziqersoftware/newserv).
 
 Credits to [fuzziqersoftware](https://github.com/fuzziqersoftware) for the patch.
