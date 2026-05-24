@@ -32,7 +32,8 @@ ULONG listAssetSizeLimit[] = {
   0x005B82AD,
   0x005BB40C,
   0x005E581E,
-  0x007A6573
+  0x007A6573,
+  0x0081A965
 };
 
 static void patch_asset_limits(void) {
