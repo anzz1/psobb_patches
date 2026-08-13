@@ -162,13 +162,13 @@ extern "C" void load_options(void);
 
 BOOL WINAPI DllMain(HMODULE hModule, DWORD dwReason, LPVOID lpReserved)
 {
+	g_hModule = hModule;
+
 	if (dwReason == DLL_PROCESS_ATTACH) {
-		DisableThreadLibraryCalls(hModule);
+		//DisableThreadLibraryCalls(hModule);
 		load_options();
 		patch_widescreen();
 	}
-
-	g_hModule = hModule;
 
 	return TRUE;
 }
